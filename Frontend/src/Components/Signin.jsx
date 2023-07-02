@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './signin.css';
@@ -15,13 +16,30 @@ const Signin = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your signin/login logic here
-    // For example, you can make an API request to authenticate the user
 
-    // Show toast notification
-    toast.success('Signin successful!', { position: toast.POSITION.TOP_CENTER });
+    try {
+      const response = await axios.post('http://localhost:3000/signin', {
+        email,
+        password,
+      });
+
+      // Handle successful signin response here
+      const { token } = response.data;
+
+      // Store the token in localStorage or cookies for future use
+      localStorage.setItem('token', token);
+
+      // Show success toast notification
+      toast.success('Signin successful!', { position: toast.POSITION.TOP_CENTER });
+    } catch (error) {
+      // Handle error during signin here
+      console.error(error);
+
+      // Show error toast notification
+      toast.error('Signin failed. Please try again.');
+    }
   };
 
   return (

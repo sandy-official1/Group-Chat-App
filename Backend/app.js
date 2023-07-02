@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyparser = require("body-parser");
 const userroute = require("./routes/signupRoutes");
+const signinRoutes = require("./routes/signinRoutes");
 const database = require("./utils/database");
 const mysql = require("mysql2");
 
@@ -14,6 +15,7 @@ const usertable = require("./models/User");
 // Other middleware and configurations
 
 app.use(userroute);
+app.use(signinRoutes);
 
 // Sync the database and start the server
 // Start the server
